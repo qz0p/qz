@@ -1,0 +1,30 @@
+<TimeTableScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            GridLayout:
+                id: timetable_grid
+                cols: 4
+                row_default_height: 60  # 높이 조정
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 10
+                padding: [10, 10]
+
+<MenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "급식 메뉴"
+            font_size: 24
+            size_hint_y: None
+            height: 50
+            font_name: "GabiaHeuldot"
+        ScrollView:
+            GridLayout:
+                id: meal_schedule_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 10
+                padding: [10, 10]
