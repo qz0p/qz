@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 일정표</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>내 일정표</h1>
+        <div id="inputSection">
+            <input type="text" id="scheduleInput" placeholder="일정을 입력하세요">
+            <input type="date" id="dateInput">
+            <button onclick="addSchedule()">추가</button>
+        </div>
+        <ul id="scheduleList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
