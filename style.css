@@ -1,35 +1,238 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    background: url('krt.jpg') no-repeat center center fixed; /* krt.jpg 배경 이미지 */
+    background-size: cover; /* 배경 이미지가 화면을 가득 채우도록 설정 */
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
+    overflow: hidden;
 }
 
-.container {
-    background-color: white;
+/* 눈 내리는 효과 */
+.snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="1" fill="white"/></svg>');
+    animation: snow 10s linear infinite;
+}
+
+/* 봉투 스타일링 */
+.envelope-wrapper {
+    position: relative;
+    margin-top: 100px;
+}
+
+.envelope {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: #8b0000; /* 봉투 색상 */
+    border: none; /* 테두리 제거 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    background-image: url('https://www.transparenttextures.com/patterns/paper.png'); /* 종이 질감 */
+    background-size: cover; /* 질감 크기 조정 */
+    z-index: 1;
+}
+
+/* 봉투 뒷면 (직사각형 배경) */
+.envelope-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #e74c3c; /* 봉투 뒷면 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    z-index: 1;
+}
+
+/* 봉투 왼쪽 삼각형 */
+.envelope-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: #c0392b; /* 봉투 왼쪽 색상 */
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+    z-index: 5;
+}
+
+/* 봉투 오른쪽 삼각형 */
+.envelope-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: #c0392b; /* 봉투 오른쪽 색상 */
+    clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    z-index: 5;
+}
+
+/* 봉투 아래 사다리꼴 */
+.envelope-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    background: #c0392b; /* 봉투 아래 색상 */
+    clip-path: polygon(0 30%, 100% 30%, 100% 100%, 0 100%);
+    z-index: 6;
+}
+
+/* 봉투 윗 플랩 */
+.envelope-flap {
+    position: absolute;
+    top: -120px;
+    width: 100%;
+    height: 120px;
+    background: #8b0000; /* 봉투 윗 플랩 색상 */
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+    transform-origin: bottom;
+    transform: rotateX(180deg);  /* 처음에는 뒤로 젖혀진 상태 */
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 7; 
+}
+
+/* 열리 상태 */
+.envelope-wrapper.opened .envelope-flap {
+    transform: rotateX(0deg); 
+    z-index: 2; /* 봉투가 열림 */
+}
+
+.envelope-wrapper.opened .card {
+    opacity: 1;  /* 카드가 보이게 */
+    transform: translateY(0);  /* 카드가 위로 올라옴 */
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.2s, opacity 0.5s ease 1.2s;  /* 봉투 열린 후 카드 애니메이션 */
+}
+
+.card {
+    position: absolute;
+    width: 280px;  /* 카드의 고정된 너비 */
+    height: 180px; /* 카드의 고정된 높이 */
+    left: 10px;
+    top: 0; /* 봉투의 위치에 맞게 조정 (봉투 위쪽에 위치) */
+    background: #f4e4bc;
+    transform: translateY(0); /* 카드가 봉투 아래에 위치하도록 설정 */
+    transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* opacity와 transform 전환 효과 */
+    opacity: 0;  /* 처음에는 안 보이게 */
+    cursor: pointer;
+    z-index: 3; /* 카드의 z-index 설정 */
+    border: none; /* 테두리 제거 */
+}
+
+/* 카드가 보일 때 */
+.card.show {
+    opacity: 1; /* 카드가 보이게 */
+    transform: translateY(0); /* 카드가 봉투에서 위로 올라오게 설정 */
+}
+
+/* 카드가 펼쳐진 상태 */
+.card.expanded {
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1, 2)  translateY(250%);  /* 세로로 2배 확대 */
+    width: 280px;  /* 원래 너비 유지 */
+    height: 360px; /* 세로 길이 조정 (180px에서 360px로 변경) */
+    max-width: none; /* 최대 너비 제한 없음 */
+    max-height: none; /* 최대 높이 제한 없음 */
+    z-index: 10000; /* 최상위 레이어로 설정 */
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3); /* 림자 효과 */
+    transition: transform 0.5s ease; /* 부드러운 전환 효과 */
+}
+
+/* 카드가 접힐 때 애니메이션 */
+.card.folded {
+    transform: scaleY(0); /* 카드가 접힌 상태로 축소 */
+    transition: transform 0.5s ease; /* 부드러운 전환 효과 */
+}
+
+/* 카드 내용 스타일 */
+.card-inside {
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    width: 80%;
-    max-width: 600px;
+    opacity: 0; /* 카드가 처음에는 내용이 보이지 않게 설정 */
+    transition: opacity 0.5s ease;
+    height: 100%;
+    overflow-y: auto;
 }
 
-input, button {
-    margin: 5px;
-    padding: 5px;
+/* 카드가 펼쳐질 때 애니메이션 */
+.card.expanded .card-inside {
+    opacity: 1; /* 카드가 펼쳐질 때 보이게 */
+    transition: opacity 0.5s ease 0.5s; /* 펼쳐진 후에 글귀가 보이도록 지연 */
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+/* 배경 오버레이 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 배경을 덜 어둡게 설정 (0.5로 조정) */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.8s ease;
+    z-index: 9999;
 }
 
-li {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 눈 내리는 효과 */
+
+
+/* 카드가 펼쳐질 때 내용 이게 설정 */
+.card.expanded .card-inside {
+    opacity: 1; /* 카드가 펼쳐질 때 보이게 */
+}
+
+
+/* 눈송이 스타일 */
+.snowflake {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+/* 눈송이 떨어지는 애니메이션 */
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* 눈송이 컨테이너 */
+.snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    pointer-events: none; /* 클릭 이벤트를 무시하도록 설정 */
+}
+@keyframes snow {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 500px 1000px;
+    }
 }

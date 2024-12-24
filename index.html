@@ -3,19 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>간단한 일정표</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>동아리 홍보 사이트</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>내 일정표</h1>
-        <div id="inputSection">
-            <input type="text" id="scheduleInput" placeholder="일정을 입력하세요">
-            <input type="date" id="dateInput">
-            <button onclick="addSchedule()">추가</button>
+    <div class="snow"></div>
+    <div class="envelope-wrapper">
+        <div class="envelope">
+            <div class="card">
+                <div class="card-front">
+                    <div class="card-flap-top"></div>
+                    <div class="card-flap-left"></div>
+                    <div class="card-flap-right"></div>
+                    <div class="card-flap-bottom"></div>
+                </div>
+                <div class="card-inside" style="opacity: 0; transition: opacity 0.5s ease;">
+                    <p style="color: brown; font-size: 14px; font-family: 'Dancing Script', cursive;">Dear.future</p>
+                    <p style="color: brown; font-size: 14px; font-family: 'Dancing Script';">
+                        저희 공학 동아리 홍보에 관심 가져주셔서 감사합니다!<br>
+                        여기에서 당신은 기계, 전자, 컴퓨터 공학, 산업 공학 등 다양한 분야에서 기술을 배울 수 있습니다.<br>
+                        컴퓨터와 회로를 이용한 다양한 활동을 통해 공학적 재능을 키울수 있습니다.<br>
+                        이제 당신의 모험이 시작됩니다! 마법 같은 순간들이 기다리고 있어요. 함께 꿈을 이루어가요!<br>
+                        준비가 되셨나요?<br>
+                    </p>
+                    <p style="color: brown; font-size: 14px; font-family: 'Dancing Script', cursive;">
+                        <span style="color: red; text-decoration: underline; cursor: pointer;" onclick="window.open('https://open.kakao.com/o/sSQ7GO6g', '_blank');">----to your adventure----</span>
+                    </p>
+                    <p style="color: brown; font-size: 14px; font-family: 'Dancing Script', cursive;">from. Untitled</p>
+                </div>
+            </div>
+            <div class="envelope-back"></div>
+            <div class="envelope-left"></div>
+            <div class="envelope-right"></div>
+            <div class="envelope-bottom"></div>
+            <div class="envelope-flap"></div>
         </div>
-        <ul id="scheduleList"></ul>
     </div>
+
+    <div class="overlay"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
