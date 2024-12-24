@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.stopPropagation(); // 카드 클릭 시 이벤트 전파 방지
         if (!this.classList.contains('expanded')) {
             this.classList.add('expanded'); // 카드 확장
-            this.style.transform = 'translateY(-40%) scale(2)'; // 카드가 위로 올라가면서 크기 3배로 확대
+            this.style.transform = 'translateY(-40%) scale(1.3)'; // 카드가 위로 올라가면서 크기 3배로 확대
             this.style.transition = 'transform 0.5s ease'; // 크기 확대 애니메이션
 
             // 카드가 펼쳐진 후에 내용이 보이도록 지연
